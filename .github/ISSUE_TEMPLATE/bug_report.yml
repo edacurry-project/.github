@@ -1,0 +1,86 @@
+name: Bug report
+description: Something in the EDACurry ecosystem behaves incorrectly
+title: "[bug] "
+body:
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of the EDACurry ecosystem is affected? Pick "Not sure" if you cannot tell yet.
+      options:
+        - edacurry-core
+        - edacurry-frontend
+        - edacurry-backend
+        - edacurry-python
+        - edacurry-regression
+        - Individual tool repository
+        - Legacy EDACurry codebase
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Release tag, branch, or commit SHA. A branch name or HEAD commit is fine during the migration.
+      placeholder: v1.0.0 / main / develop / a8627be
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Operating system
+      placeholder: Ubuntu 24.04
+    validations:
+      required: true
+
+  - type: input
+    id: toolchain
+    attributes:
+      label: Compiler / toolchain
+      description: Include this when relevant, especially for build failures or compiler-dependent behavior.
+      placeholder: g++ 13.2, Clang 18, CMake 3.28, Python 3.12
+    validations:
+      required: false
+
+  - type: textarea
+    id: command
+    attributes:
+      label: Command or API usage
+      description: The exact command, script, or API call that triggers the issue.
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproducer
+    attributes:
+      label: Minimal reproducer
+      description: The smallest netlist, code sample, or input that still shows the problem.
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / error output
+      description: Relevant output. Trim it to the part that matters.
+      render: text
+    validations:
+      required: false
