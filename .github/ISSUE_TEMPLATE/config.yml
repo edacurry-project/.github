@@ -1,0 +1,6 @@
+# Keep blank issues enabled: EDACurry is a technical/research project and
+# legitimate reports may not always fit cleanly into bug or feature forms.
+blank_issues_enabled: true
+
+# Add contact_links here if project-wide Discussions or another support channel
+# is introduced in the future.
