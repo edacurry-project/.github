@@ -1,0 +1,86 @@
+name: Reusable CMake CI
+
+on:
+  workflow_call:
+    inputs:
+      build_type:
+        description: CMake build type
+        required: false
+        type: string
+        default: Debug
+      cmake_args:
+        description: Additional arguments passed to CMake configure
+        required: false
+        type: string
+        default: -DSTRICT_WARNINGS=ON -DWARNINGS_AS_ERRORS=ON
+      apt_packages:
+        description: Additional Ubuntu packages required by the caller
+        required: false
+        type: string
+        default: ""
+      run_tests:
+        description: Run CTest after building
+        required: false
+        type: boolean
+        default: true
+      working_directory:
+        description: Repository directory containing the top-level CMake project
+        required: false
+        type: string
+        default: .
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: GCC
+            cc: gcc
+            cxx: g++
+            compiler_packages: gcc g++
+          - name: Clang
+            cc: clang
+            cxx: clang++
+            compiler_packages: clang
+
+    env:
+      CC: ${{ matrix.cc }}
+      CXX: ${{ matrix.cxx }}
+
+    defaults:
+      run:
+        working-directory: ${{ inputs.working_directory }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install compiler
+        working-directory: .
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ${{ matrix.compiler_packages }}
+
+      - name: Install additional dependencies
+        if: ${{ inputs.apt_packages != '' }}
+        working-directory: .
+        run: sudo apt-get install -y ${{ inputs.apt_packages }}
+
+      - name: Configure
+        run: >-
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=${{ inputs.build_type }}
+          ${{ inputs.cmake_args }}
+
+      - name: Build
+        run: cmake --build build --parallel 2
+
+      - name: Test
+        if: ${{ inputs.run_tests }}
+        run: ctest --test-dir build --output-on-failure
