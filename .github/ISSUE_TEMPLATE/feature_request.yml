@@ -1,0 +1,52 @@
+name: Feature request
+description: Propose a new EDACurry capability or a change in behavior
+title: "[feature] "
+body:
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of the EDACurry ecosystem would this affect? Pick "Not sure" if it spans several components.
+      options:
+        - edacurry-core
+        - edacurry-frontend
+        - edacurry-backend
+        - edacurry-python
+        - edacurry-regression
+        - Individual tool repository
+        - Legacy EDACurry codebase
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What are you trying to do, and where does the current behavior get in the way?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: What should happen instead? Input/output examples are especially useful for parser, AST, or backend changes.
+    validations:
+      required: true
+
+  - type: textarea
+    id: formats
+    attributes:
+      label: Relevant formats
+      description: List any affected formats or dialects, such as Eldo, Spectre, JSON, or XML.
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives or workarounds
+      description: Anything you have already tried, or other approaches you considered.
+    validations:
+      required: false
